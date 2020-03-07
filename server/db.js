@@ -27,5 +27,15 @@ const addTask = (task, callback) => {
     }
   })
 }
+
+const deleteTask = (task, callback) => {
+  connection.query('DELETE FROM tasks WHERE id = (?);', task, (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
+    }
+  })
+}
  
-module.exports = {getAllTasks, addTask};
+module.exports = {getAllTasks, addTask, deleteTask};

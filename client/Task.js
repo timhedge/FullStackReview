@@ -2,9 +2,9 @@ import React from 'react';
 
 const Task = (props) => {
   return (
-    <div>
-      <ul>{props.tasks.map((task, index) => <li key={index}>{task.task}</li>)}</ul>
-    </div>
+    <>
+      <ul>{props.tasks.map((task, index) => <li onClick={props.deleteItem} key={index} data-id={task.id}>{task.task}</li>)}</ul>
+    </>
   )
 }
 

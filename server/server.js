@@ -29,6 +29,18 @@ app.post('/addTask', (req, res) => {
             res.send(result);
         }
     })
-})
+});
+
+app.delete(`/deleteTask`, (req, res) => {
+    //console.log(req.body);
+    db.deleteTask(req.body.id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log(result);
+            res.send(req.body.id);
+        }
+    })
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
