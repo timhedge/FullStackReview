@@ -17,5 +17,15 @@ const getAllTasks = (callback) => {
         }
     })
 }
+
+const addTask = (task, callback) => {
+  connection.query('INSERT INTO tasks (task) VALUES (?);', task, (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
+    }
+  })
+}
  
-module.exports = {getAllTasks};
+module.exports = {getAllTasks, addTask};

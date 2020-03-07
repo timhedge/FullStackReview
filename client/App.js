@@ -6,10 +6,11 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: '',
-            todos: []
+            todos: [],
+            item: ''
         }
         this.enterItem = this.enterItem.bind(this);
+        this.addItem = this.addItem.bind(this);
     }
 
     enterItem(event) {
@@ -19,13 +20,17 @@ export default class App extends React.Component {
       });
     }
 
-    addItem() {
+    addItem(event) {
+        event.preventDefault();
         let todoItem = this.state.item;
-        axios.post('/addTask', {
+        axios.post('http://localhost:3000/addTask', {
             task: todoItem
         })
         .then((response) => {
-            console.log(response);
+            this.setState({
+              todos: [...this.state.todos, { id: response.insertId, task: todoItem } ],
+              item: ''
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -34,11 +39,12 @@ export default class App extends React.Component {
 
     componentDidMount() {
       // get grocery items  
-        axios.get('/tasks')
+        axios.get('http://localhost:3000/tasks')
         .then((response) => {
             let todoItems = response.data;
             this.setState({
-                todos: todoItems // post request obj body values
+                todos: todoItems, // post request obj body values
+                item: ''
             });
           })
           .catch((error) => {
@@ -50,8 +56,8 @@ export default class App extends React.Component {
         return (
         <div>
             <h1>Taskly</h1>
-            <input onChange={this.enterItem}></input>
-            <button>Add Task</button>
+            <input type="text" value={this.state.item} onChange={this.enterItem}></input>
+            <button onClick={this.addItem}>Add Task</button>
             <Task tasks={this.state.todos}/>
         </div>
         )

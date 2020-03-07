@@ -22,11 +22,13 @@ app.get('/tasks', (req, res) => {
 });
 
 app.post('/addTask', (req, res) => {
-    // call db query
-      // if err
-        // log err
-      // else
-        // res.send data
+    db.addTask(req.body.task, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
